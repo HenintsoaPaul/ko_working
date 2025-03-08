@@ -1,5 +1,9 @@
 package itu.ko_working_api.controller;
 
+import itu.ko_working_api.dto.upload.EspaceUpload;
+import itu.ko_working_api.service.CsvService;
+import itu.ko_working_api.service.EspaceService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,32 +12,30 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/upload-csv")
+@RequiredArgsConstructor
 public class FileUploadController {
 
-    @PostMapping
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+    private final CsvService csvService;
+    private final EspaceService espaceService;
+
+    @PostMapping("/espace")
+    public ResponseEntity<String> upEspace(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
 
         try {
-            String fileName = file.getOriginalFilename();
+            List<EspaceUpload> r = csvService.parseEspaceUpload(file);
+            espaceService.saveAsEntity(r);
 
-//            // save le fichier
-            byte[] bytes = file.getBytes();
-//            Path path = Paths.get("D:\\ITU\\Semester6\\ko_working\\ko_working_api\\database" + fileName);
-//            Files.write(path, bytes);
-
-            return ResponseEntity.ok("Uploaded Successfully");
+            return ResponseEntity.ok("Tonga tsara aty amn Spring");
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Error while uploading file");
+            return ResponseEntity.badRequest().body("Misy olana kely");
         }
     }
 }
