@@ -30,7 +30,7 @@ public class FileUploadController {
 
         try {
             List<EspaceUpload> r = csvService.parseEspaceUpload(file);
-            espaceService.saveAsEntity(r);
+            espaceService.saveAsEntities(r);
 
             return ResponseEntity.ok("Tonga tsara aty amn Spring");
         } catch (IOException e) {

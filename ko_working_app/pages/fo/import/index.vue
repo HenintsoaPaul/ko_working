@@ -17,7 +17,7 @@ const file = ref(null);
 const { sendCsv } = useImport();
 
 const host = "http://localhost:8080";
-const apiUrl = "/api/upload-csv";
+const apiUrl = "/api/upload-csv/espace";
 
 const handleFileUpload = (event: any) => {
   file.value = event.target.files[0];
