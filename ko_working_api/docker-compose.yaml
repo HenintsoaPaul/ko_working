@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  ko-working-pg-volume:
+
+services:
+  ko-working-pg:
+    image: postgres:15
+    container_name: ko-working-pg
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_DB: ko_working
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: itu16
+    volumes:
+      - ko-working-pg-volume:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d ko_working" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
