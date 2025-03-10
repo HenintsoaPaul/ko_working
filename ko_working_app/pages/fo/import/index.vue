@@ -1,6 +1,9 @@
 <template>
   <div>
     <h1>Upload CSV File</h1>
+    <div v-if="apiMessage">
+      <p>{{ apiMessage }}</p>
+    </div>
     <form @submit.prevent="submitForm">
       <input type="file" @change="handleFileUpload" accept=".csv" />
       <button type="submit">Submit</button>
@@ -12,9 +15,12 @@
 import { ref } from 'vue';
 import { useImport } from '~/composable/useImport';
 import type { ApiResponse, FileUploadResponse } from '~/types/api';
+import { getApiError } from '~/utils/logger';
 
 const file = ref(null);
 const { sendCsv } = useImport();
+
+const apiMessage = ref("");
 
 const host = "http://localhost:8080";
 const apiUrl = "/api/upload-csv/espace";
@@ -34,9 +40,13 @@ const submitForm = async () => {
 
   try {
     const response: ApiResponse<FileUploadResponse> = await sendCsv(formData, host + apiUrl);
+    apiMessage.value = response.message;
 
     logApiResponse(apiUrl, response);
   } catch (error) {
+    const err = getApiError(error);
+    apiMessage.value = err.message;
+
     logApiError(apiUrl, error);
   }
 };
