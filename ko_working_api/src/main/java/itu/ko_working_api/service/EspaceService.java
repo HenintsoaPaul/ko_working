@@ -8,13 +8,16 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class EspaceService {
 
+    private final GenericCsvService<EspaceUpload> csvService;
     private final EspaceRepository espaceRepository;
     private final PrixHeureEspaceService prixHeureEspaceService;
 
@@ -24,6 +27,10 @@ public class EspaceService {
         espace.setIdEspace(nextId);
 
         return this.espaceRepository.save(espace);
+    }
+
+    public List<EspaceUpload> parseUpload(MultipartFile file) throws IOException {
+        return csvService.parseUpload(file, EspaceUpload.class);
     }
 
     public void saveAsEntities(List<EspaceUpload> uploads) {

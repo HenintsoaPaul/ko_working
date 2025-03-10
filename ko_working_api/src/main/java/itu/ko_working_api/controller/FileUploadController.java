@@ -1,11 +1,9 @@
 package itu.ko_working_api.controller;
 
 import itu.ko_working_api.dto.api.ApiResponse;
-import itu.ko_working_api.dto.upload.CsvNoResponse;
 import itu.ko_working_api.dto.upload.CsvOkResponse;
 import itu.ko_working_api.dto.upload.EspaceUpload;
 import itu.ko_working_api.dto.upload.OptionUpload;
-import itu.ko_working_api.service.CsvService;
 import itu.ko_working_api.service.EspaceService;
 import itu.ko_working_api.service.OptionService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    private final CsvService csvService;
     private final EspaceService espaceService;
     private final OptionService optionService;
 
@@ -32,12 +29,7 @@ public class FileUploadController {
     public ResponseEntity<ApiResponse<?>> upEspace(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (file.isEmpty()) {
-            String message = "fichier vide rangah";
-            return ResponseEntity.badRequest().body(new CsvNoResponse(message));
-        }
-
-        List<EspaceUpload> r = csvService.parseEspaceUpload(file);
+        List<EspaceUpload> r = espaceService.parseUpload(file);
         espaceService.saveAsEntities(r);
 
         return ResponseEntity.ok(new CsvOkResponse(r.size()));
@@ -45,16 +37,12 @@ public class FileUploadController {
     }
 
     @PostMapping("/option")
-    public ResponseEntity<String> upOption(
+    public ResponseEntity<ApiResponse<?>> upOption(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Empty file");
-        }
-
-        List<OptionUpload> r = csvService.parseOptionUpload(file);
+        List<OptionUpload> r = optionService.parseUpload(file);
         optionService.saveAsEntities(r);
 
-        return ResponseEntity.ok("Tonga tsara aty amn Spring");
+        return ResponseEntity.ok(new CsvOkResponse(r.size()));
     }
 }
