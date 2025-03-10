@@ -26,7 +26,9 @@ public class FileUploadController {
     private final OptionService optionService;
 
     @PostMapping("/espace")
-    public ResponseEntity<String> upEspace(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> upEspace(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
@@ -39,7 +41,9 @@ public class FileUploadController {
     }
 
     @PostMapping("/option")
-    public ResponseEntity<String> upOption(@RequestParam("file") MultipartFile file) throws IOException {
+    public ResponseEntity<String> upOption(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
