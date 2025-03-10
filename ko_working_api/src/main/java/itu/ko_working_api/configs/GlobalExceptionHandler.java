@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 @RestControllerAdvice
@@ -47,6 +48,18 @@ public class GlobalExceptionHandler {
         );
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    // ex: file upload
+    @ExceptionHandler(value = {IOException.class})
+    public ResponseEntity<ApiResponse<String>> handleIOException(IOException exception) {
+        ApiResponse<String> response = new ApiResponse<>(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Erreur I/O bro",
+                exception.getMessage()
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(value = {Exception.class})

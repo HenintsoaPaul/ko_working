@@ -26,36 +26,27 @@ public class FileUploadController {
     private final OptionService optionService;
 
     @PostMapping("/espace")
-    public ResponseEntity<String> upEspace(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> upEspace(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
 
-        try {
-            List<EspaceUpload> r = csvService.parseEspaceUpload(file);
-            espaceService.saveAsEntities(r);
+        List<EspaceUpload> r = csvService.parseEspaceUpload(file);
+        espaceService.saveAsEntities(r);
 
-            return ResponseEntity.ok("Tonga tsara aty amn Spring");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Misy olana kely");
-        }
+        return ResponseEntity.ok("Tonga tsara aty amn Spring");
+
     }
 
     @PostMapping("/option")
-    public ResponseEntity<String> upOption(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<String> upOption(@RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("Empty file");
         }
 
-        try {
-            List<OptionUpload> r = csvService.parseOptionUpload(file);
-            optionService.saveAsEntities(r);
+        List<OptionUpload> r = csvService.parseOptionUpload(file);
+        optionService.saveAsEntities(r);
 
-            return ResponseEntity.ok("Tonga tsara aty amn Spring");
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().body("Misy olana kely");
-        }
+        return ResponseEntity.ok("Tonga tsara aty amn Spring");
     }
 }
