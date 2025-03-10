@@ -1,7 +1,6 @@
-package itu.ko_working_api.configs;
+package itu.ko_working_api.exception;
 
 import itu.ko_working_api.dto.api.ApiResponse;
-import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -32,19 +32,12 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
-    // Erreur de validation level service
-    @ExceptionHandler(value = {ConstraintViolationException.class})
-    public ResponseEntity<ApiResponse<HashMap<String, String>>> handleValidation(ConstraintViolationException exception) {
-        HashMap<String, String> mapErrors = new HashMap<>();
-
-        exception.getConstraintViolations().forEach(violation -> {
-            mapErrors.put(violation.getPropertyPath().toString(), violation.getMessage());
-        });
-
-        ApiResponse<HashMap<String, String>> response = new ApiResponse<>(
+    @ExceptionHandler(CsvValidationException.class)
+    public ResponseEntity<ApiResponse<List<String>>> handleCsvValidation(CsvValidationException ex) {
+        ApiResponse<List<String>> response = new ApiResponse<>(
                 HttpStatus.BAD_REQUEST.value(),
-                "Erreur de validation level service bro",
-                mapErrors
+                ex.getMessage(),
+                ex.getErrors()
         );
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);

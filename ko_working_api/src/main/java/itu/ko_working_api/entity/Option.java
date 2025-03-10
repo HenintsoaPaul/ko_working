@@ -14,10 +14,10 @@ public class Option {
     @Column(name = "id_option", nullable = false, length = 50)
     private String idOption;
 
-    @Column(name = "code", nullable = false, length = 50)
+    @Column(name = "code", nullable = false, length = 50, unique = true)
     private String code;
 
-    @Column(name = "option", nullable = false, length = 50)
+    @Column(name = "option", nullable = false, length = 50, unique = true)
     private String option;
 
 }
