@@ -1,6 +1,8 @@
 package itu.ko_working_api.exception;
 
 import itu.ko_working_api.dto.api.ApiResponse;
+import itu.ko_working_api.dto.upload.CsvNoResponse;
+import itu.ko_working_api.dto.upload.UploadResponseBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,14 +35,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CsvValidationException.class)
-    public ResponseEntity<ApiResponse<List<String>>> handleCsvValidation(CsvValidationException ex) {
-        ApiResponse<List<String>> response = new ApiResponse<>(
-                HttpStatus.BAD_REQUEST.value(),
-                ex.getMessage(),
-                ex.getErrors()
-        );
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<CsvNoResponse> handleCsvValidation(CsvValidationException ex) {
+        return new ResponseEntity<>(new CsvNoResponse(ex), HttpStatus.BAD_REQUEST);
     }
 
     // ex: file upload

@@ -1,5 +1,8 @@
 package itu.ko_working_api.controller;
 
+import itu.ko_working_api.dto.api.ApiResponse;
+import itu.ko_working_api.dto.upload.CsvNoResponse;
+import itu.ko_working_api.dto.upload.CsvOkResponse;
 import itu.ko_working_api.dto.upload.EspaceUpload;
 import itu.ko_working_api.dto.upload.OptionUpload;
 import itu.ko_working_api.service.CsvService;
@@ -26,17 +29,18 @@ public class FileUploadController {
     private final OptionService optionService;
 
     @PostMapping("/espace")
-    public ResponseEntity<String> upEspace(
+    public ResponseEntity<ApiResponse<?>> upEspace(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Empty file");
+            String message = "fichier vide rangah";
+            return ResponseEntity.badRequest().body(new CsvNoResponse(message));
         }
 
         List<EspaceUpload> r = csvService.parseEspaceUpload(file);
         espaceService.saveAsEntities(r);
 
-        return ResponseEntity.ok("Tonga tsara aty amn Spring");
+        return ResponseEntity.ok(new CsvOkResponse(r.size()));
 
     }
 
