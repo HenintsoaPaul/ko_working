@@ -27,7 +27,7 @@ public class OptionReservationService {
     }
 
     @Transactional
-    public void saveBatch(List<OptionReservation> optionReservations) {
+    public void saveAll(List<OptionReservation> optionReservations) {
         optionReservationRepository.saveAll(optionReservations);
     }
 }
