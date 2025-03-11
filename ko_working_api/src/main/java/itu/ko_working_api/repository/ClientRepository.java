@@ -1,6 +1,6 @@
 package itu.ko_working_api.repository;
 
-import itu.ko_working_api.entity.Option;
+import itu.ko_working_api.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface OptionRepository extends JpaRepository<Option, String> {
-    @Query("select generate_option_seq()")
+public interface ClientRepository extends JpaRepository<Client, String> {
+    @Query("select generate_client_seq()")
     String generateId();
 
-    Optional<Option> findByCode(String code);
+    Optional<Client> findByNumero(String numero);
 }
