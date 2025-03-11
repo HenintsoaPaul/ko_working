@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 const hostUrl = useRuntimeConfig().public.hostUrl;
-const apiUrl = ref<string>(`${hostUrl}/upload-csv`);
+const apiUrl = ref<string>(`${hostUrl}/api/upload-csv`);
 
 const data = ref([
   { apiUrl: `${apiUrl.value}/espace`, title: 'Import espace' },
