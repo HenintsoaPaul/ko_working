@@ -75,3 +75,16 @@ BEGIN
     RETURN 'CLIE' || LPAD(next_val::TEXT, 4, '0');
 END;
 $$ LANGUAGE plpgsql;
+
+-- paiement
+CREATE SEQUENCE paiement_seq START 1 INCREMENT 1;
+
+CREATE OR REPLACE FUNCTION generate_paiement_seq()
+    RETURNS TEXT AS $$
+DECLARE
+    next_val INT;
+BEGIN
+    SELECT nextval('paiement_seq') INTO next_val;
+    RETURN 'PAY' || LPAD(next_val::TEXT, 4, '0');
+END;
+$$ LANGUAGE plpgsql;

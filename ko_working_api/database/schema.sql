@@ -82,7 +82,7 @@ CREATE TABLE reservation
 CREATE TABLE paiement
 (
     id_paiement        VARCHAR(50),
-    date_paiement      TIMESTAMP,
+    date_paiement      DATE,
     id_status_paiement VARCHAR(50) NOT NULL,
     id_reservation     VARCHAR(50) NOT NULL,
     PRIMARY KEY (id_paiement),
