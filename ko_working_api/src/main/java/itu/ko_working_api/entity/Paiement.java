@@ -3,7 +3,7 @@ package itu.ko_working_api.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Data
 @Entity
@@ -14,7 +14,7 @@ public class Paiement {
     private String idPaiement;
 
     @Column(name = "date_paiement")
-    private Instant datePaiement;
+    private LocalDate datePaiement;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_status_paiement", nullable = false)
