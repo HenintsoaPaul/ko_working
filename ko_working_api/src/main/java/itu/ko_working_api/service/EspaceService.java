@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +50,10 @@ public class EspaceService {
         prixHeureEspace.setVal(upload.getPrix_heure());
         prixHeureEspace.setDateModification(null);
         prixHeureEspaceService.save(prixHeureEspace);
+    }
+
+    // find
+    public Optional<Espace> findByNom(String nom) {
+        return espaceRepository.findByNom(nom);
     }
 }
