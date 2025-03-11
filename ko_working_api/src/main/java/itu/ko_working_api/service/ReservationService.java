@@ -34,11 +34,19 @@ public class ReservationService {
     private final OptionReservationService optionReservationService;
     private final StatusReservationService statusReservationService;
 
+    // save
     @Transactional
     public Reservation save(@Valid Reservation reservation) {
         return this.reservationRepository.save(reservation);
     }
 
+    // find
+    public Reservation findById(String id) {
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reservation '" + id + "' not found"));
+    }
+
+    // csv
     @Transactional
     public List<ReservationUpload> parseUpload(MultipartFile file) throws IOException {
         return csvService.parseUpload(file, ReservationUpload.class);
@@ -103,7 +111,6 @@ public class ReservationService {
 
         return reservation;
     }
-
 
     private LocalTime parseHeure(@NotBlank(message = "'heure_debut' cannot be blank") String heureDebut) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
