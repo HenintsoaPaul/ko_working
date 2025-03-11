@@ -1,13 +1,13 @@
 package itu.ko_working_api.controller;
 
 import itu.ko_working_api.dto.api.ApiResponse;
-import itu.ko_working_api.dto.upload.CsvNoResponse;
 import itu.ko_working_api.dto.upload.CsvOkResponse;
 import itu.ko_working_api.dto.upload.EspaceUpload;
 import itu.ko_working_api.dto.upload.OptionUpload;
-import itu.ko_working_api.service.CsvService;
+import itu.ko_working_api.dto.upload.ReservationUpload;
 import itu.ko_working_api.service.EspaceService;
 import itu.ko_working_api.service.OptionService;
+import itu.ko_working_api.service.ReservationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,20 +24,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileUploadController {
 
-    private final CsvService csvService;
     private final EspaceService espaceService;
     private final OptionService optionService;
+    private final ReservationService reservationService;
 
     @PostMapping("/espace")
     public ResponseEntity<ApiResponse<?>> upEspace(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (file.isEmpty()) {
-            String message = "fichier vide rangah";
-            return ResponseEntity.badRequest().body(new CsvNoResponse(message));
-        }
-
-        List<EspaceUpload> r = csvService.parseEspaceUpload(file);
+        List<EspaceUpload> r = espaceService.parseUpload(file);
         espaceService.saveAsEntities(r);
 
         return ResponseEntity.ok(new CsvOkResponse(r.size()));
@@ -45,16 +40,22 @@ public class FileUploadController {
     }
 
     @PostMapping("/option")
-    public ResponseEntity<String> upOption(
+    public ResponseEntity<ApiResponse<?>> upOption(
             @RequestParam("file") MultipartFile file
     ) throws IOException {
-        if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Empty file");
-        }
-
-        List<OptionUpload> r = csvService.parseOptionUpload(file);
+        List<OptionUpload> r = optionService.parseUpload(file);
         optionService.saveAsEntities(r);
 
-        return ResponseEntity.ok("Tonga tsara aty amn Spring");
+        return ResponseEntity.ok(new CsvOkResponse(r.size()));
+    }
+
+    @PostMapping("/reservation")
+    public ResponseEntity<ApiResponse<?>> upReservation(
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        List<ReservationUpload> r = reservationService.parseUpload(file);
+        reservationService.saveAsEntities(r);
+
+        return ResponseEntity.ok(new CsvOkResponse(r.size()));
     }
 }

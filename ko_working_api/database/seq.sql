@@ -7,7 +7,7 @@ DECLARE
     next_val INT;
 BEGIN
     SELECT nextval('espace_seq') INTO next_val;
-    RETURN 'ESPACE' || LPAD(next_val::TEXT, 4, '0');
+    RETURN 'ESP' || LPAD(next_val::TEXT, 4, '0');
 END;
 $$ LANGUAGE plpgsql;
 
@@ -20,7 +20,7 @@ DECLARE
     next_val INT;
 BEGIN
     SELECT nextval('prix_heure_espace_seq') INTO next_val;
-    RETURN 'PRIX_ESPACE' || LPAD(next_val::TEXT, 4, '0');
+    RETURN 'PX_ESP' || LPAD(next_val::TEXT, 4, '0');
 END;
 $$ LANGUAGE plpgsql;
 
@@ -46,6 +46,32 @@ DECLARE
     next_val INT;
 BEGIN
     SELECT nextval('prix_option_seq') INTO next_val;
-    RETURN 'PRIX_OPT' || LPAD(next_val::TEXT, 4, '0');
+    RETURN 'PX_OPT' || LPAD(next_val::TEXT, 4, '0');
+END;
+$$ LANGUAGE plpgsql;
+
+-- reservation
+CREATE SEQUENCE reservation_seq START 1 INCREMENT 1;
+
+CREATE OR REPLACE FUNCTION generate_reservation_seq()
+    RETURNS TEXT AS $$
+DECLARE
+    next_val INT;
+BEGIN
+    SELECT nextval('reservation_seq') INTO next_val;
+    RETURN 'RESV' || LPAD(next_val::TEXT, 4, '0');
+END;
+$$ LANGUAGE plpgsql;
+
+-- client
+CREATE SEQUENCE client_seq START 1 INCREMENT 1;
+
+CREATE OR REPLACE FUNCTION generate_client_seq()
+    RETURNS TEXT AS $$
+DECLARE
+    next_val INT;
+BEGIN
+    SELECT nextval('client_seq') INTO next_val;
+    RETURN 'CLIE' || LPAD(next_val::TEXT, 4, '0');
 END;
 $$ LANGUAGE plpgsql;

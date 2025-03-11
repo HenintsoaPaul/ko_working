@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -41,4 +42,6 @@ public class Reservation {
     @JoinColumn(name = "id_client", nullable = false)
     private Client client;
 
+    @Transient
+    private List<OptionReservation> optionReservations;
 }

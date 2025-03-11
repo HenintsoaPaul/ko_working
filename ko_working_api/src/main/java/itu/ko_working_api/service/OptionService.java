@@ -4,23 +4,33 @@ import itu.ko_working_api.dto.upload.OptionUpload;
 import itu.ko_working_api.entity.Option;
 import itu.ko_working_api.entity.PrixOption;
 import itu.ko_working_api.repository.OptionRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class OptionService {
 
-    private final OptionRepository espaceRepository;
+    private final GenericCsvService<OptionUpload> csvService;
+    private final OptionRepository optionRepository;
     private final PrixOptionService prixOptionService;
 
+    @Transactional
     public Option save(Option espace) {
-        String nextId = this.espaceRepository.generateId();
+        String nextId = this.optionRepository.generateId();
         espace.setIdOption(nextId);
 
-        return this.espaceRepository.save(espace);
+        return this.optionRepository.save(espace);
+    }
+
+    public List<OptionUpload> parseUpload(MultipartFile file) throws IOException {
+        return csvService.parseUpload(file, OptionUpload.class);
     }
 
     public void saveAsEntities(List<OptionUpload> uploads) {
@@ -40,5 +50,10 @@ public class OptionService {
         prixOption.setVal(upload.getPrix());
         prixOption.setDateModification(null);
         prixOptionService.save(prixOption);
+    }
+
+    // find
+    public Optional<Option> findByCode(String code) {
+        return optionRepository.findByCode(code);
     }
 }

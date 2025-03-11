@@ -2,8 +2,11 @@ package itu.ko_working_api.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "option_reservation")
 public class OptionReservation {
     @EmbeddedId
@@ -19,4 +22,13 @@ public class OptionReservation {
     @JoinColumn(name = "id_prix_option", nullable = false)
     private PrixOption prixOption;
 
+    public OptionReservation(Reservation reservation, PrixOption prixOption) {
+        OptionReservationId id = new OptionReservationId();
+        id.setIdReservation(reservation.getIdReservation());
+        id.setIdPrixOption(prixOption.getIdPrixOption());
+        this.setId(id);
+
+        this.setReservation(reservation);
+        this.setPrixOption(prixOption);
+    }
 }
