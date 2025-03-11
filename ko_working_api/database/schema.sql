@@ -109,3 +109,14 @@ CREATE TABLE option_reservation
     FOREIGN KEY (id_reservation) REFERENCES reservation (id_reservation),
     FOREIGN KEY (id_prix_option) REFERENCES prix_option (id_prix_option)
 );
+
+-- Insertions
+insert into status_reservation (id_status_reservation, nom)
+values ('ST_RES0001', 'Fait'),
+       ('ST_RES0002', 'A payer'),
+       ('ST_RES0003', 'En attente'),
+       ('ST_RES0004', 'Payé');
+
+insert into status_paiement (id_status_paiement, nom)
+values ('ST_PAY0001', 'En attente'),
+       ('ST_PAY0002', 'Validé');
