@@ -2,8 +2,11 @@ package itu.ko_working_api.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "option_reservation")
 public class OptionReservation {
     @EmbeddedId

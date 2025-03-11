@@ -16,7 +16,7 @@ public class CsvNoResponse extends ApiResponse<List<String>> {
     public CsvNoResponse(CsvValidationException e) {
         super(
                 HttpStatus.BAD_REQUEST.value(),
-                "Import CSV échouée",
+                e.getMessage(),
                 e.getErrors()
         );
         // Timestamp is already set in parent constructor
