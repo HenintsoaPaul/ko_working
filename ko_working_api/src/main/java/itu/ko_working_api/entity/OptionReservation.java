@@ -19,4 +19,13 @@ public class OptionReservation {
     @JoinColumn(name = "id_prix_option", nullable = false)
     private PrixOption prixOption;
 
+    public OptionReservation(Reservation reservation, PrixOption prixOption) {
+        OptionReservationId id = new OptionReservationId();
+        id.setIdReservation(reservation.getIdReservation());
+        id.setIdPrixOption(prixOption.getIdPrixOption());
+        this.setId(id);
+
+        this.setReservation(reservation);
+        this.setPrixOption(prixOption);
+    }
 }

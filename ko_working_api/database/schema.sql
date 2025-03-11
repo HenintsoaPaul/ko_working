@@ -79,16 +79,14 @@ CREATE TABLE reservation
     FOREIGN KEY (id_client) REFERENCES client (id_client)
 );
 
-CREATE TABLE paiment
+CREATE TABLE paiement
 (
-    id_paiment         VARCHAR(50),
+    id_paiement        VARCHAR(50),
     date_paiement      TIMESTAMP,
-    ref_paiement       VARCHAR(50) NOT NULL,
     id_status_paiement VARCHAR(50) NOT NULL,
     id_reservation     VARCHAR(50) NOT NULL,
-    PRIMARY KEY (id_paiment),
+    PRIMARY KEY (id_paiement),
     UNIQUE (id_reservation),
-    UNIQUE (ref_paiement),
     FOREIGN KEY (id_status_paiement) REFERENCES status_paiement (id_status_paiement),
     FOREIGN KEY (id_reservation) REFERENCES reservation (id_reservation)
 );
